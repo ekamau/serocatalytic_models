@@ -39,6 +39,11 @@ tar_option_set(
 # Run the R scripts in the R/ folder with custom functions:
 tar_source("R/functions.R")
 
+# Needed for naming Muench-type analyses
+name_1 <- "i. Taracua, Sao Gabriel and Yaurete\nBrazil"
+name_2 <- "ii. Esperanga and Regiao do Sul de Tabatinga\nBrazil"
+name_3 <- "iii. Socorro\nColombia"
+
 # target list:
 list(
   ### Age FOI model:
@@ -99,6 +104,43 @@ list(
   tar_target(plot_age_foi, plot_age_rate(hiv_model_fit, hiv_data)),
   tar_target(plot_time_foi, plot_time_rate(hiv_model_fit, hiv_data)),
   tar_target(plot_hiv_model_fig, plot_model_fit_hiv_fig(plot_hiv_fit, plot_age_foi,
-                                                        plot_hiv_prob_infxn, plot_time_foi))
+                                                        plot_hiv_prob_infxn, plot_time_foi)),
+  
+  # Muench data analysis
+  
+  ## process raw data
+  tar_target(df_amazonas_1, clean_and_name("data/amazonas_1.csv", name_1)),
+  tar_target(df_amazonas_2, clean_and_name("data/amazonas_2.csv", name_2)),
+  tar_target(df_colombia, clean_and_name_colombia("data/colombia.csv", name_3)),
+  
+  ## estimate lambdas
+  tar_target(lambda_amazonas_1, estimate_lambda_constant_foi(df_amazonas_1)),
+  tar_target(lambda_amazonas_2, estimate_lambda_constant_foi(df_amazonas_2)),
+  tar_target(lambda_colombia, estimate_lambda_colombia(df_colombia)),
+  
+  ## process to plot
+  tar_target(df_amazonas_sim_1, create_amazonas_sim(name_1, lambda_amazonas_1)),
+  tar_target(df_amazonas_sim_2, create_amazonas_sim(name_2, lambda_amazonas_2)),
+  tar_target(df_colombia_sim, create_colombia_sim(name_3, lambda_colombia)),
+  tar_target(df_all_muench,
+             combine_all_and_pivot(df_amazonas_1, df_amazonas_2, df_colombia,
+                                   df_amazonas_sim_1, df_amazonas_sim_2, df_colombia_sim,
+                                   name_1, name_2, name_3)),
+  tar_target(plot_muench_seroprevalence_val, plot_muench_seroprevalence(df_all_muench)),
+  tar_target(plot_muench_foi_val, plot_muench_foi(name_1,
+                                              name_2,
+                                              name_3,
+                                              lambda_amazonas_1,
+                                              lambda_amazonas_2,
+                                              lambda_colombia)),
+  tar_target(plot_muench_both, {
+    plot_muench_seroprevalence_val / plot_muench_foi_val +
+      plot_annotation(tag_levels = 'A')
+  }),
+  tar_target(file_plot_muench_both, {
+    filename <- "outputs/muench_yf.pdf"
+    ggsave(filename, plot_muench_both, width = 9, height = 7)
+  })
+  
   )
 

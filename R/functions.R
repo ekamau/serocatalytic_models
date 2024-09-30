@@ -12,3 +12,6 @@ source("R/functions-maternal-antibodies-model.R")
 
 # Time and Age FOI model:
 source("R/functions-time-age-model.R")
+
+# Muench analysis:
+source("R/functions-muench.R")
