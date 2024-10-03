@@ -1,5 +1,5 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
-.Random.seed|object|049eb804544d7efb|||||||||||||||
+.Random.seed|object|ad7e372ff2954d80|||||||||||||||
 age_fit_summary|stem|dd5ae6677129cf59|75eaa47707ed5df2|0dc0d9087e4871d6|903097476||t19977.0209111055s|2216fd821b5263fe|10016|rds|local|vector|||0.79||
 age_fit_summaryV1|stem|578886d40b8375b8|19ce7ad922b44b04|34e4aab73ffa1956|-1170404903||t19994.068379378s|2216fd821b5263fe|10016|rds|local|vector|||0.701||
 age_fit_summaryV2|stem|029f1c039f94e36e|8b767d08a39b1ce6|940e43b256808f18|754898415||t19994.0425234336s|90b9f70462c43a9f|5375|rds|local|vector|||0.526||
@@ -37,7 +37,7 @@ ev68_data|stem|a7a3a2cd2c685f4e|183970bc22ace84d|ab95c74bf8349b77|-980630320||t1
 ev68_data_stan|stem|1ab29a01352b5cba|71ddc8964392a32d|5c6a9be0ed2dc33d|1666350755||t19990.9523965982s|6f12aaec162c0178|501|rds|local|vector|||0||
 ev68_model_fit|stem|587d407c81f4926f|2b4063bb896d704a|fe9e4d908c2efd1b|1754871901||t19990.9529476411s|6943e57d0ee3d43e|14956197|rds|local|vector|||40.467||
 file|stem|8794626079fcebb4|59720fdeb90c9361|2c530c1562a7fbd1|1735323524|mumps.csv|t19772.1068940004s||461|file|local|vector|||||_store_ there is no package called qs
-file_plot_muench_both|stem|4ad964dda4b36e47|ec612d0f6aea1f30|c579f4b84df01093|58181862||t19996.3734760032s|4be831169559909a|74|rds|local|vector|||0.356|Removed 1953 rows containing missing values or values outside the scale rangegeom_pointrange.. Removed 9 rows containing missing values or values outside the scale rangegeom_segment.. Removed 7 rows containing missing values or values outside the scale rangegeom_segment.. Removed 1974 rows containing missing values or values outside the scale rangegeom_path.|
+file_plot_muench_both|stem|4ad964dda4b36e47|ec612d0f6aea1f30|61d3d867c71d8c82|58181862||t19998.5377649621s|4be831169559909a|74|rds|local|vector|||0.322|Removed 1953 rows containing missing values or values outside the scale rangegeom_pointrange.. Removed 9 rows containing missing values or values outside the scale rangegeom_segment.. Removed 7 rows containing missing values or values outside the scale rangegeom_segment.. Removed 1974 rows containing missing values or values outside the scale rangegeom_path.|
 fit_age_model|function|3042fb5659d82fd6|||||||||||||||
 fit_ebola_modelA|function|e2c5d59813ca674b|||||||||||||||
 fit_ebola_modelB|function|38704e3082f003f8|||||||||||||||
@@ -84,9 +84,9 @@ plot_ev68_fit|stem|099e406c2ed7ee37|ea0d7dd6c60d0421|646d8cc6b14c5a4a|-137747076
 plot_ev68_model_fit|function|5d60bd2554cd23d0|||||||||||||||
 plot_model_fit_hiv|function|0faa9705119f4c32|||||||||||||||
 plot_model_fit_hiv_fig|function|8f863f32ec233a81|||||||||||||||
-plot_muench_both|stem|26aff833f178799e|e8967aea2df8cf4c|9c758fc0223094cd|-1805260241||t19996.3734704552s|98589bcd25fa42fc|448752|rds|local|vector|||0.002||
-plot_muench_foi|function|0621ee8ee7cf7353|||||||||||||||
-plot_muench_foi_val|stem|d2dd6068718814dd|cefeaf87312bd593|967b1e218e926784|-1606977903||t19996.3734656832s|887c007c97a01f03|187659|rds|local|vector|||0.038||
+plot_muench_both|stem|bcee26f5e9739799|e8967aea2df8cf4c|f04c5dd0e62842ae|-1805260241||t19998.5377600923s|8188f5859ccd573c|449105|rds|local|vector|||0.003||
+plot_muench_foi|function|86f3fdb24edb81c5|||||||||||||||
+plot_muench_foi_val|stem|a1f76a4eff098805|cefeaf87312bd593|34db41350a065d37|-1606977903||t19998.5377567818s|3175668cc5ebd613|188404|rds|local|vector|||2.326||
 plot_muench_seroprevalence|function|f60d60dcd85fbc21|||||||||||||||
 plot_muench_seroprevalence_val|stem|7e93513218cd5ba8|064be3b263cb7fdb|ed7b9b42e088e711|1753322441||t19996.3734676979s|4d8124cb2d3b7e17|263950|rds|local|vector|||0.065|A numeric legend.position argument in theme was deprecated in ggplot23.5.0.ℹ Please use the legend.position.inside argument of theme instead.|
 plot_prob_infection|function|249fe35a03490675|||||||||||||||

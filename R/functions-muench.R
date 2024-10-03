@@ -135,20 +135,26 @@ plot_muench_seroprevalence <- function(df) {
 plot_muench_foi <- function(location_1, location_2, location_3,
                             lambda_amazonas_1, lambda_amazonas_2, lambda_colombia) {
   
+  year_now <- 1934
   age_sim_short <- seq(0, 65, 1)
+  year_start <- year_now - max(age_sim_short)
+  years <- rev(seq(year_start, year_now, 1))
   foi_amazonas_1 <- tibble(
+    year=years,
     years_ago=age_sim_short,
     foi=lambda_amazonas_1,
     region=location_1
   )
   foi_amazonas_2 <- tibble(
+    year=years,
     years_ago=age_sim_short,
     foi=lambda_amazonas_2,
     region=location_2
   )
   foi_colombia <- tibble(
+    year=years,
     years_ago=age_sim_short,
-    foi=c(0, 0, 0, 0, lambda_colombia, rep(0, length(age_sim_short) - 5)), # assumes study carried out in 1934
+    foi=c(0, 0, 0, 0, 0, lambda_colombia, rep(0, length(age_sim_short) - 6)), # assumes study carried out in 1934
     region=location_3
   )
   foi_df <- foi_amazonas_1 %>%
@@ -161,12 +167,12 @@ plot_muench_foi <- function(location_1, location_2, location_3,
     )
   
   foi_df %>%
-    ggplot(aes(x=years_ago, y=foi)) +
+    ggplot(aes(x=year, y=foi)) +
     geom_line(linetype=2) +
+    scale_x_continuous(breaks = seq(1870, 1930, 10)) +
     scale_y_sqrt() +
-    scale_x_reverse() +
     facet_wrap(~region) +
-    xlab("Years ago") +
+    xlab("Date") +
     theme_classic() +
     theme(
       strip.background = element_blank(),
