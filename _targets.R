@@ -6,7 +6,7 @@ library(crew)
 # Set target options:
 tar_option_set(
   packages = c("tibble","tidyverse","rstan","patchwork","Hmisc","Matrix","expm"), 
-  controller = crew::crew_controller_local(workers = 4, seconds_idle = 60)
+  controller = crew::crew_controller_local(workers = 4, seconds_idle = 60) # might not work!!!
 
   # Pipelines that take a long time to run may benefit from optional distributed computing. 
   # To use this capability in tar_make(), supply a {crew} controller
@@ -65,7 +65,7 @@ list(
   tar_target(plot_age_apiB, plot_age_model_APIB(mumps_data, age_fit_summaryV2)),
   tar_target(plot_age_FOI_model,
              plots_age_model_fig(plot_age_fitA, plot_age_apiA, plot_age_fitB, plot_age_apiB)),
-  
+
   ### Time FOI model:
   tar_target(chikv_data, read_chikv_data(file = "data/chikv.csv")),
   tar_target(chikv_data_stan, stan_data_time_model(chikv_data)),
@@ -85,7 +85,7 @@ list(
                                                   ebov_data_stan, seroprev_data)),
   tar_target(plot_ebola_api, plot_ebola_model_API(ebola_model_fitA, ebola_model_fitB)),
   tar_target(plot_ebola_model_result, plots_ebola_model_fig(plot_ebola_fit, plot_ebola_api)),
-  
+
   ### maternal antibodies FOI model:
   tar_target(ev68_data, read_ev68_data(file = "data/EV68.csv")),
   tar_target(ev68_data_stan, stan_data_ev68_model(ev68_data)),
@@ -96,9 +96,10 @@ list(
   tar_target(hiv_data, read_hiv_data(file = "data/mossong_HIV.csv")),
   tar_target(hiv_data2, calculate_binomial_ci(hiv_data)),
   tar_target(hiv_data_stan, stan_data_time_age_model(hiv_data)),
-  #** files uploaded to Github don't have targets below: **
-  tar_target(hiv_model_fit, fit_time_age_model(hiv_data_stan)),
-  tar_target(plot_hiv_fit, plot_model_fit_hiv(hiv_model_fit, hiv_data, hiv_data_stan)),
+  #** model not run, instead, we use saved model fit: **
+  #tar_target(hiv_model_fit, fit_time_age_model(hiv_data_stan))
+  tar_target(hiv_model_fit, readRDS("data/hiv-Mossong-fit.rds")),
+  tar_target(plot_hiv_fit, plot_model_fit_hiv(hiv_model_fit, hiv_data2, hiv_data_stan)),
   tar_target(hiv_prob_infxn, calculate_prob_infection(hiv_model_fit, hiv_data)),
   tar_target(plot_hiv_prob_infxn, plot_prob_infection(hiv_prob_infxn)),
   tar_target(plot_age_foi, plot_age_rate(hiv_model_fit, hiv_data)),
@@ -112,12 +113,12 @@ list(
   tar_target(df_amazonas_1, clean_and_name("data/amazonas_1.csv", name_1)),
   tar_target(df_amazonas_2, clean_and_name("data/amazonas_2.csv", name_2)),
   tar_target(df_colombia, clean_and_name_colombia("data/colombia.csv", name_3)),
-  
+
   ## estimate lambdas
   tar_target(lambda_amazonas_1, estimate_lambda_constant_foi(df_amazonas_1)),
   tar_target(lambda_amazonas_2, estimate_lambda_constant_foi(df_amazonas_2)),
   tar_target(lambda_colombia, estimate_lambda_colombia(df_colombia)),
-  
+
   ## process to plot
   tar_target(df_amazonas_sim_1, create_amazonas_sim(name_1, lambda_amazonas_1)),
   tar_target(df_amazonas_sim_2, create_amazonas_sim(name_2, lambda_amazonas_2)),

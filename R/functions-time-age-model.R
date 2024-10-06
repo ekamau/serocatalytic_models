@@ -1,5 +1,8 @@
 # Functions for combined time and age model - HIV model:
 
+options(mc.cores = parallel::detectCores())
+rstan::rstan_options(auto_write = TRUE, threads_per_chain = 2)
+
 read_hiv_data <- function(file){
   df <- read.csv(file, header = TRUE) %>% 
     select(Age, prev2003, n2003) %>% 
@@ -30,25 +33,25 @@ stan_data_time_age_model <- function(df){
   
 }
 
-
-fit_time_age_model <- function(data_stan){
-  u <- 2 * dlnorm(1:max(data_stan$ages), meanlog = 3.5, sdlog = 0.5)
-  model <- stan_model("stan/model-time-age.stan")
-  init_fn <- function() { list(age_rate = u, a = 20, b = 1, c = 1) }
-  fit_optim <- optimizing(model, data = data_stan, init = init_fn, as_vector = FALSE)
-  
-  initf <- function(chain_id = 1) { 
-    list( a = fit_optim$par$a, b = fit_optim$par$b, c = fit_optim$par$c, 
-          time_rate = fit_optim$par$time_rate, sigma = fit_optim$par$sigma ) 
-  }
-  
-  n_chains <- 4
-  init_ll <- lapply(1:n_chains, function(id) initf(chain_id = id))
-  
-  fit_sample <- sampling(model, data = data_stan, init = init_ll, chains = 4, iter = 3000, warmup = 900,
-                         refresh = 600, control = list(adapt_delta = 0.99999, max_treedepth = 25))
-  
-}
+### NOT USED / RUN:
+# fit_time_age_model <- function(data_stan){
+#   u <- 2 * dlnorm(1:max(data_stan$ages), meanlog = 3.5, sdlog = 0.5)
+#   model <- stan_model("stan/time_age_foi_model.stan")
+#   init_fn <- function() { list(age_rate = u, a = 20, b = 1, c = 1) }
+#   fit_optim <- optimizing(model, data = data_stan, init = init_fn, as_vector = FALSE)
+#   
+#   initf <- function(chain_id = 1) {
+#     list( a = fit_optim$par$a, b = fit_optim$par$b, c = fit_optim$par$c,
+#           time_rate = fit_optim$par$time_rate, sigma = fit_optim$par$sigma )
+#   }
+# 
+#   n_chains <- 4
+#   init_ll <- lapply(1:n_chains, function(id) initf(chain_id = id))
+# 
+#   fit_sample <- sampling(model, data = data_stan, init = init_ll, chains = 4, iter = 3000, warmup = 900,
+#                          refresh = 1000, control = list(adapt_delta = 0.99999, max_treedepth = 25))
+#   
+# }
 
 
 # panel A of figure in manuscript:
@@ -56,7 +59,7 @@ plot_model_fit_hiv <- function(model_fit_hiv, df, data_stan){
   s <- as.data.frame(summary(model_fit_hiv, probs = c(0.025, 0.975))$summary)
   pred_seropos <- tibble::rownames_to_column(s, "parameter") %>% filter(grepl("pos_pred", parameter))
   
-  tibble(age = df$Age, actual_seroprev = df$prev, model_seroprev = pred_seropos$mean/data_stan$total,
+  tibble(age = df$age, actual_seroprev = df$prev, model_seroprev = pred_seropos$mean/data_stan$total,
          actual_seroprev_low = df$lower, actual_seroprev_high = df$upper, 
          model_seroprev_low = pred_seropos$`2.5%`/data_stan$total, 
          model_seroprev_high = pred_seropos$`97.5%`/data_stan$total) %>%
@@ -178,6 +181,7 @@ plot_time_rate <- function(model_fit_hiv, df){
   v_df <- tibble::rownames_to_column(s, "parameter") %>% filter(grepl("time_rate", parameter))
   year_survey <- 2003
   yrs <- seq((year_survey-max(df$Age)+1), year_survey, 1)
+  v <- v_df$mean
   
   data.frame(year = yrs, foi = c(rep(v[1], (which(yrs == 1980))),
                                  rep(v[2], (length(yrs) - (which(yrs == 1980)))))) %>% 
@@ -190,7 +194,7 @@ plot_time_rate <- function(model_fit_hiv, df){
 
 
 # Plot final figure:
-plot_model_fit_hiv_fig <- function(A,B,C,D){
+plot_model_fit_hiv_fig <- function(figA,figB,figD,figC){
   (figA + figB + plot_layout(widths = c(2,1))) / (figD + figC + plot_layout(widths = c(2,1))) + 
     plot_annotation(tag_levels = "A")
   

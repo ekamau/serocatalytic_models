@@ -1,5 +1,5 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
-.Random.seed|object|ad7e372ff2954d80|||||||||||||||
+.Random.seed|object|c3270368620b6774|||||||||||||||
 age_fit_summary|stem|dd5ae6677129cf59|75eaa47707ed5df2|0dc0d9087e4871d6|903097476||t19977.0209111055s|2216fd821b5263fe|10016|rds|local|vector|||0.79||
 age_fit_summaryV1|stem|578886d40b8375b8|19ce7ad922b44b04|34e4aab73ffa1956|-1170404903||t19994.068379378s|2216fd821b5263fe|10016|rds|local|vector|||0.701||
 age_fit_summaryV2|stem|029f1c039f94e36e|8b767d08a39b1ce6|940e43b256808f18|754898415||t19994.0425234336s|90b9f70462c43a9f|5375|rds|local|vector|||0.526||
@@ -42,11 +42,13 @@ fit_age_model|function|3042fb5659d82fd6|||||||||||||||
 fit_ebola_modelA|function|e2c5d59813ca674b|||||||||||||||
 fit_ebola_modelB|function|38704e3082f003f8|||||||||||||||
 fit_ev68_model|function|e628107226b59f7d|||||||||||||||
-fit_time_age_model|function|2ace7f2c1b66252a|||||||||||||||
+fit_time_age_model|function|8170f161fb087743|||||||||||||||
 fit_time_model|function|a74b026bdfc09e57|||||||||||||||
-hiv_data|stem|8468a8d1fc1007c7|b53da54c45f5a819|4254ef9862476c6c|-1562475348||t19994.8635289606s|e9e0c71aadf166f6|589|rds|local|vector|||4.956||
-hiv_data_stan|stem|7200855d810108eb|7e0594c805e10c9b|9f6735959208754f|-1129233189||t19994.864695008s|ff44d5a1f08d1b9b|332|rds|local|vector|||5.172||
-hiv_data2|stem|dd896cd4228d0301|a9c9b5d8154f4401|b3591ef7ce033c8b|620771155||t19994.8646948355s|903161f8304265fa|1328|rds|local|vector|||5.195||
+hiv_data|stem|8468a8d1fc1007c7|1cede9cbf67e54ec|4254ef9862476c6c|-1562475348||t20001.7416560783s|e9e0c71aadf166f6|589|rds|local|vector|||1.788||
+hiv_data_stan|stem|7200855d810108eb|7e0594c805e10c9b|9f6735959208754f|-1129233189||t20001.7416561631s|ff44d5a1f08d1b9b|332|rds|local|vector|||0||
+hiv_data2|stem|dd896cd4228d0301|a9c9b5d8154f4401|b3591ef7ce033c8b|620771155||t20001.7416562733s|903161f8304265fa|1328|rds|local|vector|||0.007||
+hiv_model_fit|stem|5c4d61401db2f28c|85c9c8c70cd5870e|2c530c1562a7fbd1|271218468||t20002.711677839s|aa3b6fed947f914d|9733950|rds|local|vector|||0.769||
+hiv_prob_infxn|stem|7574b24a0645ee20|9be9fcbabc035b01|52535e004fdd7f6b|-1596509883||t20002.7116832911s|238997ae3676eb19|1428|rds|local|vector|||0.458||
 lambda_amazonas_1|stem|fcc7b2e28cdece38|bb9113b0c9fc8558|8ecb0f1e0c54ee17|909841177||t19996.3712588602s|a33fb1da66f6e09f|55|rds|local|vector|||2.632|onedimensional optimization by NelderMead is unreliableuse Brent or optimize directly|
 lambda_amazonas_2|stem|4e08bab6168a4d7a|b080075ffb067826|27fd15bb9f39afce|839329211||t19996.3712599826s|a33fb1da66f6e09f|55|rds|local|vector|||2.64|onedimensional optimization by NelderMead is unreliableuse Brent or optimize directly|
 lambda_colombia|stem|e58a0176f8ba184d|6c3796a4cac62080|17bf8a68c80bbcb0|-22790912||t19996.3712593845s|a33fb1da66f6e09f|55|rds|local|vector|||0||
@@ -64,6 +66,7 @@ plot_age_apiA|stem|f509ef4adf382a7f|ff66e1bb148a807d|ae2c91e575720e6a|295117488|
 plot_age_apiB|stem|71a9fd98d056c7a8|4865b4db6e13d80e|d2eeb9362b0d42a2|406278973||t19994.0617196641s|1fb47afc41e8b37f|98954|rds|local|vector|||6.996||
 plot_age_fitA|stem|c0b874cb60587ff0|7e8b1d1cb9dd8c4a|401e58359e12e951|604951125||t19994.0683809165s|9e4dcc7928d413e8|113392|rds|local|vector|||0.021||
 plot_age_fitB|stem|6c936bafbc2c4830|b77e5244656989b8|3108cdfcd07b4d0e|-658229608||t19994.0617207836s|0f9c87d84af5cb4e|108402|rds|local|vector|||6.996||
+plot_age_foi|stem|ffde1b8c987d5e61|ed34f29d14a50238|ed1556c829847a97|1371155829||t20002.7116901652s|af7afd43d5931fae|9836070|rds|local|vector|||0.026||
 plot_age_FOI_model|stem|20b014cfcb1dd265|b0e68d9d9880f1f4|9bff3c69b388fa58|-827465351||t19994.0683841269s|d2c6c6f9683efc21|410763|rds|local|vector|||0.002||
 plot_age_model|stem|6aea4f7b9b21df02|859a5f186198246e|5ad855b7abb23034|-1573724984||t19977.0209122241s|0157261cc1273217|119256|rds|local|vector|||0.03||
 plot_age_model_API_A|function|fe3abbe13f3da311|||||||||||||||
@@ -82,8 +85,11 @@ plot_ebola_model_fit|function|7171bc1d52064385|||||||||||||||
 plot_ebola_model_result|stem|d80de780aa9527e9|507c182ebee353e5|011a69ef113631d7|-511469869||t19994.0376674344s|702d32a10114b746|9475926|rds|local|vector|||0.003||
 plot_ev68_fit|stem|099e406c2ed7ee37|ea0d7dd6c60d0421|646d8cc6b14c5a4a|-1377470761||t19994.8635851149s|a63f4b602a1c5d81|15258588|rds|local|vector|||1.748||
 plot_ev68_model_fit|function|5d60bd2554cd23d0|||||||||||||||
-plot_model_fit_hiv|function|0faa9705119f4c32|||||||||||||||
-plot_model_fit_hiv_fig|function|8f863f32ec233a81|||||||||||||||
+plot_hiv_fit|stem|61cb5434880b2433|cc936b96d9904e03|078aae9c76e7f46a|-745196498||t20002.7117058162s|004aae3c7106ac7d|9915342|rds|local|vector|||0.016||
+plot_hiv_model_fig|stem|74afad11ba82fe48|df0da7b6e6b8a694|216ce2e2d6e728c9|-1015072734||t20002.711721037s|9a6990d8b8d8a138|27593201|rds|local|vector|||0.002||
+plot_hiv_prob_infxn|stem|55b2cbadfabc60b2|c6109e0d994c9b0a|4a3a3cc7a4fdaa30|567137970||t20002.7116976381s|2464117a66c31fbe|110750|rds|local|vector|||0.02||
+plot_model_fit_hiv|function|6272a32cf7946558|||||||||||||||
+plot_model_fit_hiv_fig|function|387777c546188115|||||||||||||||
 plot_muench_both|stem|bcee26f5e9739799|e8967aea2df8cf4c|f04c5dd0e62842ae|-1805260241||t19998.5377600923s|8188f5859ccd573c|449105|rds|local|vector|||0.003||
 plot_muench_foi|function|86f3fdb24edb81c5|||||||||||||||
 plot_muench_foi_val|stem|a1f76a4eff098805|cefeaf87312bd593|34db41350a065d37|-1606977903||t19998.5377567818s|3175668cc5ebd613|188404|rds|local|vector|||2.326||
@@ -92,10 +98,11 @@ plot_muench_seroprevalence_val|stem|7e93513218cd5ba8|064be3b263cb7fdb|ed7b9b42e0
 plot_prob_infection|function|249fe35a03490675|||||||||||||||
 plot_time_api|stem|8f7320cd55957052|3c6c82f8e34f5519|b00d4350ae0878b1|-373324167||t19993.989997355s|57634a3872f41eee|167855|rds|local|vector|||0.035||
 plot_time_fit|stem|efb8031757dfa145|aaa0459865d87a80|4e5e21cbbf3ddf44|352525503||t19993.989999439s|b5389ad33af80311|100272|rds|local|vector|||0.02||
+plot_time_foi|stem|e87be72e7c875088|babbe698578951f2|7dd3a2d7f21594e3|-180296185||t20002.7116969275s|bd2b467f45e9a459|9835165|rds|local|vector|||0.008||
 plot_time_FOI_model|stem|3cb6532de3c3397a|f618b2b3c8eea36f|4f609db0cba2dde4|-295516581||t19993.9900019342s|e017750631cc3f13|264774|rds|local|vector|||0.003||
 plot_time_model_API|function|4ee9e14dc77354ea|||||||||||||||
 plot_time_model_fit|function|e97248a4851396b4|||||||||||||||
-plot_time_rate|function|8011e7166695c372|||||||||||||||
+plot_time_rate|function|acbe9fc2c1b9f86f|||||||||||||||
 plots_age_model_fig|function|6ae9970e0ac22aeb|||||||||||||||
 plots_ebola_model_fig|function|f91c8c0cf52ebc04|||||||||||||||
 plots_time_model_fig|function|20db3dc6e3fe76a9|||||||||||||||
