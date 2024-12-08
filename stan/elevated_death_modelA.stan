@@ -1,9 +1,9 @@
 // Model - elevated death rates due to infection
 // stepwise FOI - (i) one fixed lambda; one estimated lambda estimate; 
-// (ii) using eqn 41; (iii) estimated mu (iv) fixed IFR/rho = 0.89;
+// (ii) using eqn 41; (iii) estimated kappa (iv) fixed IFR/rho = 0.89;
 
 functions{
-  real prob_seropos_calc(real lambda, real mu, real rho, int age) {
+  real prob_seropos_calc(real lambda, real epsilon, real rho, int age) {
     vector[age+1] vecS;
     vector[age+1] vecXm;
     vector[age+1] vecXs;
@@ -21,7 +21,7 @@ functions{
       }
         vecS[i+1] = (vecS[i]*exp(-foi));
         vecXm[i+1] = (vecXm[i] + vecS[i]*(1-rho)*(1-exp(-foi)));
-        vecXs[i+1] = (vecS[i]*rho*foi*(exp(-mu)-exp(-foi)) + vecXs[i]*(foi-mu)*exp(-mu))/(foi-mu);
+        vecXs[i+1] = (vecS[i]*rho*foi*(exp(-epsilon)-exp(-foi)) + vecXs[i]*(foi-epsilon)*exp(-epsilon))/(foi-epsilon);
     }
     
     prob = (vecXm[age+1] + vecXs[age+1])/(vecXm[age+1] + vecXs[age+1] + vecS[age+1]);
@@ -40,18 +40,18 @@ data{
 
 parameters{
   real<lower=0> lambda; // real<lower=0, upper=gamma>;
-  real<lower=0> time_to_die; // death
+  real<lower=0> time_to_die; // kappa  
 
 }
 
 transformed parameters{
   real<lower=0> prop_seropos[n_obs];
-  real<lower=0> mu = 1/time_to_die;
+  real<lower=0> epsilon = 1/time_to_die; // death rate // epsilon 
   real<lower=0> rho = 0.89; // IFR
   
   for(i in 1:n_obs){
     int age = ages[i];
-    prop_seropos[i] = prob_seropos_calc(lambda, mu, rho, age);
+    prop_seropos[i] = prob_seropos_calc(lambda, epsilon, rho, age);
   }
     
 }

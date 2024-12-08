@@ -2,4 +2,7 @@
 .Rhistory
 .RData
 .Ruserdata
+<<<<<<< HEAD
 *.DS_Store
+=======
+>>>>>>> 80b9121 (update parameters)

@@ -30,11 +30,11 @@ stan_data_ebola_model <- function(df){
 
 fit_ebola_modelA <- function(data_stan){
   model <- rstan::stan_model("stan/elevated_death_modelA.stan")
-  initfn <- function() { list(lambda = 0.1, mu = 0.04, rho = 0.89) }
+  initfn <- function() { list(lambda = 0.1, epsilon = 0.04, rho = 0.89) }
   fit <- optimizing(model, data = data_stan, init = initfn, as_vector = FALSE)
   
   initf <- function(chain_id = 1) { 
-    list( lambda = fit$par$lambda, mu = fit$par$mu, rho = fit$par$rho ) }
+    list( lambda = fit$par$lambda, epsilon = fit$par$epsilon, rho = fit$par$rho ) }
   n_chains <- 4
   init_ll <- lapply(1:n_chains, function(id) initf(chain_id = id))
   
@@ -46,11 +46,11 @@ fit_ebola_modelA <- function(data_stan){
 
 fit_ebola_modelB <- function(data_stan){
   model <- rstan::stan_model("stan/elevated_death_modelB.stan")
-  initfn <- function() { list(lambda = 0.1, mu = 0.04, rho = 0.0) }
+  initfn <- function() { list(lambda = 0.1, epsilon = 0.04, rho = 0.0) }
   fit <- optimizing(model, data = data_stan, init = initfn, as_vector = FALSE)
   
   initf <- function(chain_id = 1) { 
-    list( lambda = fit$par$lambda, mu = fit$par$mu, rho = fit$par$rho ) }
+    list( lambda = fit$par$lambda, epsilon = fit$par$epsilon, rho = fit$par$rho ) }
   n_chains <- 4
   init_ll <- lapply(1:n_chains, function(id) initf(chain_id = id))
   
