@@ -71,7 +71,7 @@ parameters {
   real<lower=0> a;
   real<lower=0> b;
   real<lower=0> c;
-  real<lower=0> sigma;
+  //real<lower=0> sigma;
   vector<lower=0, upper=1>[n_chunks] time_rate;
   
 }
@@ -92,7 +92,7 @@ model {
   a ~ cauchy(0,1);
   b ~ cauchy(0,1);
   c ~ cauchy(0,1);
-  sigma ~ cauchy(0,1);
+  //sigma ~ cauchy(0,1);
   
   // likelihood
   n_pos ~ binomial(total, probability_age);
