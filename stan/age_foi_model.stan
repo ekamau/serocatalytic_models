@@ -2,7 +2,7 @@
 // estimates seroreversion parameter
 
 functions{
-  real age_foi_calc(int age, int[] chunks, vector foi, real mu) {
+  real age_foi_calc(int age, array[] int chunks, vector foi, real mu) {
     real prob = 0.0;
     for(j in 1:age){
       real lambda = foi[chunks[j]];
@@ -12,8 +12,8 @@ functions{
     return prob;
   }
  
-  real[] prob_infection_calc(int[] ages, int[] chunks, vector foi, real mu, int n_obs) {
-    real prob_infected[n_obs];
+  array[] real prob_infection_calc(array[] int ages, array[] int chunks, vector foi, real mu, int n_obs) {
+    array[n_obs] real prob_infected;
     for(i in 1:n_obs){
       int age = ages[i];
       prob_infected[i] = age_foi_calc(age, chunks, foi, mu);
@@ -26,18 +26,18 @@ functions{
 
 data{
   int<lower=0> n_obs; // No. rows in data or no. age classes
-  int n_pos[n_obs]; // seropositive
-  int n_total[n_obs]; // tested
+  array[n_obs] int n_pos; // seropositive
+  array[n_obs] int n_total; // tested
   int<lower=0> age_max;
-  int chunks[age_max]; // vector of length len_chunks
-  int ages[n_obs];
+  array[age_max] int chunks; // vector of length len_chunks
+  array[n_obs] int ages;
   
   // model type
   int<lower=0, upper=1> include_seroreversion;
   
   // prior choices
   int<lower=1, upper=6> foi_prior_choice;
-  real<lower=0> foi_prior_a; 
+  real foi_prior_a; 
   real<lower=0> foi_prior_b;
   
   int<lower=1, upper=3> serorev_prior_choice;
@@ -54,15 +54,15 @@ transformed data{
 
 parameters{
   row_vector[n_chunks] log_foi; // length of vector = max value in the vector n_chunks
-  real<lower=0> sigma[is_random_walk ? 1 : 0]; // only for R/W models
-  real<lower=0> nu[foi_prior_choice == 3 ? 1 : 0]; 
-  real<lower=0> seroreversion_rate[include_seroreversion ? 1 : 0]; // rate of seroreversion
+  array[is_random_walk ? 1 : 0] real<lower=0> sigma; // only for R/W models
+  array[foi_prior_choice == 3 ? 1 : 0] real<lower=0> nu; 
+  array[include_seroreversion ? 1 : 0] real<lower=0> seroreversion_rate; // rate of seroreversion
 
 }
 
 transformed parameters{
   real<lower=0> mu;
-  real<lower=0> prob_infection[n_obs];
+  array[n_obs] real<lower=0> prob_infection;
   vector<lower=0>[n_chunks] foi = to_vector(exp(log_foi));
   
   if(include_seroreversion){
@@ -142,7 +142,7 @@ model{
 }
 
 generated quantities {
-  int pos_pred[n_obs];
+  array[n_obs] int pos_pred;
   pos_pred = binomial_rng(n_total, prob_infection);
   
 }

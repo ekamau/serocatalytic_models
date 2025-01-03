@@ -1,8 +1,8 @@
 // constant FOI model: including maternal antibodies
 
 functions{
-  real[] prob_infection_calc(real[] ages, real lambda, real gamma, int n_obs) {
-    real prob[n_obs];
+  array[] real prob_infection_calc(array[] real ages, real lambda, real gamma, int n_obs) {
+    array[n_obs] real prob;
     for(i in 1:n_obs){
       real a = ages[i];
       prob[i] = 1-(gamma/gamma-lambda)*(exp(-lambda*a) - exp(-gamma*a));
@@ -15,9 +15,9 @@ functions{
 
 data{
   int<lower=0> n_obs; // No. rows in data or no. age classes
-  int n_pos[n_obs]; // seropositive
-  int n_total[n_obs]; // tested
-  real ages[n_obs];
+  array[n_obs] int n_pos; // seropositive
+  array[n_obs] int n_total; // tested
+  array[n_obs] real ages;
   
 }
 
@@ -28,8 +28,8 @@ parameters{
 }
 
 transformed parameters{
-  real<lower=0> prob_infection[n_obs] = prob_infection_calc(ages, lambda, gamma, n_obs);
-  real<lower=0> prob_infectionB[n_obs];
+  array[n_obs] real<lower=0> prob_infection = prob_infection_calc(ages, lambda, gamma, n_obs);
+  array[n_obs] real<lower=0> prob_infectionB;
   
   for(i in 1:n_obs){
     prob_infectionB[i] = 1-exp(-lambda*ages[i]);
@@ -47,7 +47,7 @@ model{
 }
 
 generated quantities {
-  int pos_pred[n_obs] = binomial_rng(n_total, prob_infection);
-  int pos_predB[n_obs] = binomial_rng(n_total, prob_infectionB);
+  array[n_obs] int pos_pred = binomial_rng(n_total, prob_infection);
+  array[n_obs] int pos_predB = binomial_rng(n_total, prob_infectionB);
   
 }

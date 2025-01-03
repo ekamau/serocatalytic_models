@@ -1,7 +1,7 @@
 # Functions for maternal antibodies model:
 read_ev68_data <- function(file){
   # read data and prepare for stan model fitting:
-  df <- read.csv("EV68.csv") %>% 
+  df <- read.csv(file) %>% 
     dplyr::filter(Year == 2006) %>% 
     mutate(seroStatus = case_when(final_Titre >= 16 ~ 'Positive',
                                   final_Titre < 16 ~ 'Negative'),
@@ -41,8 +41,8 @@ fit_ev68_model <- function(data_stan){
   n_chains <- 4
   init_ll <- lapply(1:n_chains, function(id) initf(chain_id = id))
   
-  rstan::sampling(model, data = data_stan, chains = 4, init = init_ll, iter = 3000, warmup = 900, 
-                  refresh = 0, seed = 345, control = list(adapt_delta = 0.9999, max_treedepth = 25))
+  rstan::sampling(model, data = data_stan, chains = 4, init = init_ll, iter = 3000,
+                  refresh = 0, seed = 345)
   
 }
 
@@ -74,8 +74,8 @@ plot_ev68_model_fit <- function(ev68_model_fit, ev68_data, ev68_data_stan){
                  ymin=model_ppc2$`2.5%`*100, ymax=model_ppc2$`97.5%`*100) %>%
     ggplot(aes(x=age)) + 
     geom_pointrange(aes(y=actual, ymin=lower, ymax = upper)) +
-    geom_line(aes(y=model_predicted), color = "#159090") +
-    geom_ribbon(aes(ymin=ymin, ymax=ymax), fill = "#159090", alpha = 0.3) +
+    geom_line(aes(y=model_predicted), color = "#619CFF") +
+    geom_ribbon(aes(ymin=ymin, ymax=ymax), fill = "#619CFF", alpha = 0.3) +
     coord_cartesian(xlim = c(0, 30), ylim = c(0, 100)) +
     scale_x_sqrt() +
     labs(x = "Age, years", y = "",

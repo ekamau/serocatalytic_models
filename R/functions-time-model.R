@@ -37,8 +37,8 @@ stan_data_time_model <- function(df){ # returns a list:
     foi_indices=foi_indices,
     chunks=chunks,
     prior_choice=3,
-    prior_a=1,
-    prior_b=5
+    prior_a=-3,
+    prior_b=1
   )
   
 }
@@ -51,8 +51,7 @@ fit_time_model <- function(data_stan){
   n_chains <- 4
   init_ll <- lapply(1:n_chains, function(id) initf(chain_id = id))
   
-  rstan::sampling(model, data=data_stan, init = init_ll, chains = 4, iter = 3000, warmup = 900, 
-                      refresh = 0, control = list(adapt_delta = 0.99999, max_treedepth = 25))
+  rstan::sampling(model, data=data_stan, init = init_ll, chains = 4, iter = 3000, warmup = 900)
   
 }
 

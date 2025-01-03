@@ -65,6 +65,10 @@ list(
   tar_target(plot_age_apiB, plot_age_model_APIB(mumps_data, age_fit_summaryV2)),
   tar_target(plot_age_FOI_model,
              plots_age_model_fig(plot_age_fitA, plot_age_apiA, plot_age_fitB, plot_age_apiB)),
+  tar_target(file_plot_age_FOI_model, {
+    filename <- "outputs/mumps_fit_api.pdf"
+    ggsave(filename, plot_age_FOI_model, width = 9, height = 7)
+  }),
 
   ### Time FOI model:
   tar_target(chikv_data, read_chikv_data(file = "data/chikv.csv")),
@@ -74,6 +78,10 @@ list(
   tar_target(plot_time_fit, plot_time_model_fit(time_fit_summary, chikv_data_stan, chikv_data)),
   tar_target(plot_time_api, plot_time_model_API(chikv_data, time_fit_summary)),
   tar_target(plot_time_FOI_model, plots_time_model_fig(plot_time_fit, plot_time_api)),
+  tar_target(file_plot_time_FOI_model, {
+    filename <- "outputs/CHIKV_seroprev_API-wout-serorev.pdf"
+    ggsave(filename, plot_time_FOI_model, width = 8, height = 4)
+  }),
 
   ### Elevated deaths model:
   tar_target(ebov_data, read_ebola_data(file = "data/ebola.csv")),
@@ -91,6 +99,10 @@ list(
   tar_target(ev68_data_stan, stan_data_ev68_model(ev68_data)),
   tar_target(ev68_model_fit, fit_ev68_model(ev68_data_stan)),
   tar_target(plot_ev68_fit, plot_ev68_model_fit(ev68_model_fit, ev68_data, ev68_data_stan)),
+  tar_target(file_plot_ev68_fit, {
+    filename <- "outputs/ppc-fit-E68.pdf"
+    ggsave(filename, plot_ev68_fit, width = 8, height = 4)
+  }),
   
   ### Time and Age model (HIV model):
   tar_target(hiv_data, read_hiv_data(file = "data/mossong_HIV.csv")),

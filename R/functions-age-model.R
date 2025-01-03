@@ -18,8 +18,7 @@ fit_age_model <- function(data_stan){
   init_ll <- lapply(1:n_chains, function(id) initf(chain_id = id))
   
   rstan::sampling(age_model, data = data_stan, chains = 4, init = init_ll,
-                  iter = 3000, warmup = 900, refresh = 0, seed = 345,
-                  control = list(adapt_delta = 0.9999, max_treedepth = 25))
+                  iter = 2000, refresh = 0, seed = 345)
   #return(model_fit)
 }
 
@@ -42,7 +41,7 @@ stan_data_age_modelV1 <- function(mumps_data){
        age_max = max(mumps_data$Age),
        # these parameters have different meanings dependent on prior choice
        foi_prior_choice = 1, # this prior choice works, w/o errors!
-       foi_prior_a = 0, foi_prior_b = 1, 
+       foi_prior_a = -3, foi_prior_b = 1, 
        serorev_prior_choice = 1, serorev_prior_a = 0, serorev_prior_b = 1
   )
   #returns a list data_stan
@@ -105,7 +104,7 @@ stan_data_age_modelV2 <- function(mumps_data){
        age_max = max(ages),
        # these parameters have different meanings dependent on prior choice
        foi_prior_choice = 1, # this prior choice works, w/o errors!
-       foi_prior_a = 0, foi_prior_b = 1,
+       foi_prior_a = -3, foi_prior_b = 1,
        serorev_prior_choice = 1, serorev_prior_a = 0, serorev_prior_b = 1
   )
   

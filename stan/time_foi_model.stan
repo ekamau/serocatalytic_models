@@ -2,7 +2,7 @@
 
 functions {
   
-  vector prob_infected_noseroreversion(vector foi, matrix observation_exposure_matrix, int n_obs, int age_max, int[] chunks) {
+  vector prob_infected_noseroreversion(vector foi, matrix observation_exposure_matrix, int n_obs, int age_max, array[] int chunks) {
     real scalar_dot_product;
     vector[n_obs] prob_infected;
     vector[age_max] foi_every_age = foi[chunks];
@@ -33,7 +33,7 @@ functions {
     return prob_infected;
   }
   
-  vector get_fois(int i, vector fois_stacked, int n_fois, int [] foi_index_start_per_obs) {
+  vector get_fois(int i, vector fois_stacked, int n_fois, array[] int foi_index_start_per_obs) {
     int start = foi_index_start_per_obs[i];
     vector[n_fois] fois = segment(fois_stacked, start, n_fois);
     
@@ -41,7 +41,7 @@ functions {
   }
   
   vector prob_infected_seroreversion(vector foi, real seroreversion_rate, int n_obs, int age_max,
-  int[] chunks, int[] n_fois_exposed_per_obs, int[] foi_index_start_per_obs, int[] foi_indices, int n_fois_exposed) {
+  array[] int chunks, array[] int n_fois_exposed_per_obs, array[] int foi_index_start_per_obs, array[] int foi_indices, int n_fois_exposed) {
     
     vector[n_obs] prob_infected;
     vector[age_max] fois_every_age = foi[chunks];
@@ -61,8 +61,8 @@ functions {
   
   vector prob_infected_calculate(vector foi, real seroreversion_rate,
     int include_seroreversion, matrix observation_exposure_matrix,
-    int n_obs, int age_max, int[] chunks, int[] n_fois_exposed_per_obs,
-    int[] foi_index_start_per_obs, int[] foi_indices, int n_fois_exposed) {
+    int n_obs, int age_max, array[] int chunks, array[] int n_fois_exposed_per_obs,
+    array[] int foi_index_start_per_obs, array[] int foi_indices, int n_fois_exposed) {
       
       vector[n_obs] prob_infected;
       
@@ -80,22 +80,22 @@ functions {
 
 data {
      int<lower=0> n_obs;
-     int n_pos[n_obs];
-     int n_total[n_obs];
+     array[n_obs] int n_pos;
+     array[n_obs] int n_total;
      int<lower=1> age_max;
      matrix[n_obs, age_max] observation_exposure_matrix; // only used for non-seroreverting models
-     int<lower=1> n_fois_exposed_per_obs[n_obs]; // the number of fois each age group is exposed to
-     int<lower=1> foi_index_start_per_obs[n_obs]; // this gives the starting point of the foi corresponding to that age group when stacking the foi vectors for all ages on top of one another
+     array[n_obs] int<lower=1> n_fois_exposed_per_obs; // the number of fois each age group is exposed to
+     array[n_obs] int<lower=1> foi_index_start_per_obs; // this gives the starting point of the foi corresponding to that age group when stacking the foi vectors for all ages on top of one another
      int n_fois_exposed; // total number of foi-years across all observations
-     int<lower=1> foi_indices[n_fois_exposed]; // stacked vector of indices giving location of foi within list, corresponding to fois for each age group
+     array[n_fois_exposed] int<lower=1> foi_indices; // stacked vector of indices giving location of foi within list, corresponding to fois for each age group
      
      // model type
      int<lower=0, upper=1> include_seroreversion;
 
      // prior choices
-     int chunks[age_max];
+     array[age_max] int chunks;
      int<lower=1, upper=7> prior_choice;
-     real<lower=0> prior_a;
+     real prior_a;
      real<lower=0> prior_b;
      
 }
@@ -109,9 +109,9 @@ transformed data {
 
 parameters {
    row_vector[n_chunks] log_foi; // log foi
-   real<lower=0> sigma[is_random_walk ? 1 : 0]; // normal distribution scale parameter
-   real<lower=0> nu[is_random_walk ? 1 : 0]; // student-t degrees of freedom
-   real<lower=0> seroreversion_rate[include_seroreversion ? 1 : 0]; // rate of seroreversion
+   array[is_random_walk ? 1 : 0] real<lower=0> sigma; // normal distribution scale parameter
+   array[is_random_walk ? 1 : 0] real<lower=0> nu; // student-t degrees of freedom
+   array[include_seroreversion ? 1 : 0] real<lower=0> seroreversion_rate; // rate of seroreversion
    
 }
 
@@ -188,7 +188,7 @@ model {
 
 generated quantities {
   vector[age_max] fois_by_year;
-  int pos_pred[n_obs];
+  array[n_obs] int pos_pred;
   
   for(i in 1:age_max) {
     fois_by_year[i] = foi[chunks[i]];
